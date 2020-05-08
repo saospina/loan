@@ -1,25 +1,64 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Fragment, useState } from 'react';
 import './App.css';
+import Header from './components/Header';
+import Form from './components/Form';
+import Message from './components/Message';
+import Result from './components/Result';
+import Spinner from './components/Spinner';
+
+
+
+
 
 function App() {
+
+  //The states
+
+  const [amount, saveAmount] = useState(0);
+  const [due, saveDue] = useState('');
+  const [total, saveTotal] = useState(0);
+  const [loading, saveLoad] = useState(false)
+
+
+  let component;
+  if (loading) {
+    component = <Spinner></Spinner>
+    
+  }else if (total === 0) {
+    component = <Message></Message>
+  } else {
+    component =
+      <Result
+        total={total}
+        due={due}
+        amount={amount}
+      >
+
+      </Result>
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+
+      <Header tittle="Lean tutorial" />
+      <div className="container">
+
+        <Form
+          amount={amount}
+          saveAmount={saveAmount}
+          due={due}
+          saveDue={saveDue}
+          saveTotal={saveTotal}
+          saveLoad ={saveLoad}
+        ></Form>
+        <div className="mensajes">
+          {component}
+
+        </div>
+
+      </div>
+
+    </Fragment>
   );
 }
 
